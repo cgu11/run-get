@@ -79,7 +79,7 @@ const runnerUpdate = () => {
 }
 
 // get variable + var name in plaintext
-const getSRCVariable = (varID, varValID)=> {
+const getSRCVariable = async(varID, varValID)=> {
 	const varInfo = await query.variable(varID);
 	return {
 		name: varInfo.data.name,
