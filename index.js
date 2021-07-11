@@ -3,6 +3,7 @@ const path = require('path');
 const Discord = require('discord.js');
 const config = require("./config.js");
 const query = require("./queries.js");
+const srcVars = require("./src_vars.json");
 
 const client = new Discord.Client();
 client.login(config.token);
@@ -76,6 +77,19 @@ const runnerUpdate = () => {
 	runnerObject.runners = runners;
 	fs.writeFileSync(file, JSON.stringify(runnerObject));
 }
+
+// get variable + var name in plaintext
+const getSRCVariable = (varID, varValID)=> {
+	const varInfo = await query.variable(varID);
+	return {
+		name: varInfo.data.name,
+		label: varInfo.data.values[varValID].label
+	}
+} 
+
+const RelevantSRCVars = ['rn10q3d8', '68k4zokl', 'ylper6r8', 'j84e3gwn', 'kn0z9vd8', '9l7x269n']
+
+
 
 // Bot is on
 client.once('ready', () => {
@@ -470,16 +484,27 @@ client.setInterval(async () => {
 			    foundRun = gameLeaderboard.find(r => r.run.id === thisRun.id);
 		    }
 		    const runRank = foundRun === undefined ? 'N/A' : foundRun.place;
-		    // Create Discord embed
-		    const embed = new Discord.MessageEmbed()
-			    .setColor('#2A89E7')
-			    .setTitle(convert(thisRun.times.primary_t) + ' by ' + runnerName)
-			    .setThumbnail(thisRun.game.data.assets['cover-medium'].uri)
-			    .setURL(thisRun.weblink)
-			    .setAuthor(thisRun.game.data.names.international + ' - ' + categoryName + subcategoryName)
-			    .addField('Leaderboard Rank:', runRank)
-			    .addField('Date Played:', thisRun.date)
-			    .setTimestamp();
+
+			 // Create Discord embed
+			 const embed = new Discord.MessageEmbed()
+			 .setColor('#2A89E7')
+			 .setTitle(convert(thisRun.times.primary_t) + ' by ' + runnerName)
+			 .setThumbnail(thisRun.game.data.assets['cover-medium'].uri)
+			 .setURL(thisRun.weblink)
+			 .setAuthor(thisRun.game.data.names.international + ' - ' + categoryName + subcategoryName)
+
+			// parsing variables
+			const runVars = thisRun.data.values
+			for (const [varName, varValue] of Object.entries(runVars)) {
+				if (RelevantSRCVars.includes(varName)) {
+					const varInfo = getSRCVariable(varName, varValue)
+					embed.addField(varInfo.name + ": ", varInfo.label)
+				}
+			}
+		   
+			embed.addField('Leaderboard Rank:', runRank)
+			.addField('Date Played:', thisRun.date)
+			.setTimestamp();
 
 			if (verifiedBy !== undefined) {
 				embed.addField('Verified by:', verifiedBy)

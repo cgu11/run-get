@@ -46,5 +46,10 @@ module.exports = {
     const response = await fetch(`https://www.speedrun.com/api/v1/runs?status=new&orderby=submitted&direction=desc&embed=game,category.variables,players,level${offset}`);
     const object = await response.json();
     return object.data;
+  },
+  variable: async varID => {
+    const response = await fetch(`https://www.speedrun.com/api/v1/variables/${varID}`);
+    const object = await response.json();
+    return object.status == 404 ? 'No variable found with id ' + varID : object.data.values.values;
   }
 }
