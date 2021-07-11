@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const Discord = require('discord.js');
+const Discord = require('discord.js');ß
 const config = require("./config.js");
 const query = require("./queries.js");
-const srcVars = require("./src_vars.json");
 
 const client = new Discord.Client();
 client.login(config.token);
