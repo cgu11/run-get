@@ -10,6 +10,11 @@ module.exports = {
     const object = await response.json();
     return object.data.length === 0 ? 'No user found with name ' + name : object.data.length > 1 ? 'Too many users found. Try connecting your Twitch account to speedrun.com and use that.' : {"name": object.data[0].names.international, "id": object.data[0].id};
   },
+  srcUserById: async id => {
+    const response = await fetch(`https://www.speedrun.com/api/v1/users/${id}`);
+    const object = await response.json();
+    return object.status == 404 ? 'No user found with id ' + id : {"name": object.data.names.international};
+  },
   moderatedGames: async id => {
     const response = await fetch(`https://www.speedrun.com/api/v1/games?moderator=${id}&max=200`);
     const object = await response.json();

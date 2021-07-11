@@ -270,6 +270,7 @@ client.on('message', async message => {
 	// Message must mention the bot, be from a server administrator, and mention exactly 1 channel
 	if (message.mentions.users.has(client.user.id) && message.member.hasPermission("ADMINISTRATOR") && message.mentions.channels.size === 1) {
 		// The game abbreviations included in the message
+
 		const gameAbbreviationArray = message.content.match(/\!?\b(?<!\<)[\w\-]+(?!\>)\b\*?/g);
 		if (gameAbbreviationArray === null) {
 			message.reply('Missing parameters.');
@@ -437,7 +438,16 @@ client.setInterval(async () => {
 		    if (mostRecentVerified.includes(thisRun.id)) continue;
 		    // Name of the runner
 		    const runnerName = thisRun.players.data[0].rel === 'user' ? thisRun.players.data[0].names.international : thisRun.players.data[0].name;
-		    // Subcategory information
+		   
+			let verifiedBy;
+			// Name of the verifier
+			const nameById = await query.srcUserById(thisRun.status.examiner);
+			try {
+				verifiedBy = nameById.name;
+			} catch(err) {
+				verifiedBy = undefined
+			}
+			// Subcategory information
 		    const runVariables = Object.entries(thisRun.values);
 		    let subcategoryName = '';
 		    let subcategoryQuery = '';
@@ -470,6 +480,10 @@ client.setInterval(async () => {
 			    .addField('Leaderboard Rank:', runRank)
 			    .addField('Date Played:', thisRun.date)
 			    .setTimestamp();
+
+			if (verifiedBy !== undefined) {
+				embed.addField('Verified by:', verifiedBy)
+			}
 		    // Add run to most recent array
 		    if (mostRecentVerified.length === 400) mostRecentVerified.shift();
 		    mostRecentVerified.push(thisRun.id);
