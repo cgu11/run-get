@@ -43,14 +43,17 @@ module.exports = {
     return object.data.runs;
   },
   varLevelLB: async(game, level, category, subcategory, varID, varValue) => {
-    subcatQuery = subcategory + subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
-    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/level/${level}/${category}${subcategory}`);
+    subcatQuery = subcategory
+    subcatQuery += subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
+    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/level/${level}/${category}${subcatQuery}`);
     const object = await response.json();
     return object.data.runs;
   },
   varGameLB: async(game, category, subcategory, varID, varValue) => {
-    subcatQuery = subcategory + subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
-    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/${category}${subcategory}`);
+    subcatQuery = subcategory
+    subcatQuery += subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
+    console.log(`https://www.speedrun.com/api/v1/leaderboards/${game}/${category}${subcatQuery}`)
+    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/${category}${subcatQuery}`);
     const object = await response.json();
     return object.data.runs;
   },
