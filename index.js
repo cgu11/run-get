@@ -80,6 +80,8 @@ const runnerUpdate = () => {
 // get variable + var name in plaintext
 const getSRCVariable = async(varID, varValID)=> {
 	const varInfo = await query.variable(varID);
+	console.log(varInfo.name)
+	console.log(varInfo.values[varValID])
 	return {
 		name: varInfo.name,
 		label: varInfo.values[varValID].label
@@ -497,13 +499,15 @@ client.setInterval(async () => {
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
 					const varInfo = getSRCVariable(varName, varValue)
+					console.log(varInfo.label)
 					embed.addField(varInfo.name + ": ", varInfo.label)
 				}
 			}
-		   
-			embed.addField('Leaderboard Rank:', runRank)
-			.addField('Date Played:', thisRun.date)
-			.setTimestamp();
+		    if (runRank > 0) {
+				embed.addField('Leaderboard Rank:', runRank)
+				.addField('Date Played:', thisRun.date)
+				.setTimestamp();
+			}
 
 			if (verifiedBy !== undefined) {
 				embed.addField('Verified by:', verifiedBy)

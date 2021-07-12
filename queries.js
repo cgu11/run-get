@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const config = require('./config');
 module.exports = {
   twitchUser: async name => {
     const response = await fetch(`https://www.speedrun.com/api/v1/users?twitch=${name}`);
@@ -50,6 +51,7 @@ module.exports = {
   variable: async varID => {
     const response = await fetch(`https://www.speedrun.com/api/v1/variables/${varID}`);
     const object = await response.json();
+    console.log(object.data.name)
     return object.status == 404 ? 'No variable found with id ' + varID : {
       name: object.data.name,
       values: object.data.values.values
