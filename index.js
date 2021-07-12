@@ -493,7 +493,7 @@ client.setInterval(async () => {
 			 .setAuthor(thisRun.game.data.names.international + ' - ' + categoryName + subcategoryName)
 
 			// parsing variables
-			const runVars = thisRun.data.values
+			const runVars = thisRun.values
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
 					const varInfo = getSRCVariable(varName, varValue)
