@@ -505,7 +505,7 @@ client.setInterval(async () => {
 							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
 						} else {
 							const varGameLeaderboard = await query.varGameLB(thisRun.game.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
-							varFoundRun = varLevelLeaderboard.find(r => r.run.id === thisRun.id)
+							varFoundRun = varGameLeaderboard.find(r => r.run.id === thisRun.id)
 							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
 						}
 					}
@@ -519,7 +519,7 @@ client.setInterval(async () => {
 					embed.addField( varName + ' Rank:', varRank)
 				}
 			}
-			
+
 			embed.addField('Date Played:', thisRun.date)
 			.setTimestamp();
 
