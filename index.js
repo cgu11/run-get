@@ -487,6 +487,7 @@ client.setInterval(async () => {
 
 			// parsing variables
 			const runVars = thisRun.values
+			let varRunRanks = {}
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
 					const varInfo = await query.variable(varName);
@@ -497,7 +498,6 @@ client.setInterval(async () => {
 					// sub rankings
 					const rankingVarNames = ['Aspect', 'Weapon']
 					let varFoundRun;
-					let varRunRanks = {};
 					if (rankingVarNames.includes(varInfo.name)) {
 						if (thisRun.category.data.type === 'per-level') {
 							const varLevelLeaderboard = await query.varLevelLB(thisRun.game.data.id, thisRun.level.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
