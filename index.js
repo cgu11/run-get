@@ -77,16 +77,6 @@ const runnerUpdate = () => {
 	fs.writeFileSync(file, JSON.stringify(runnerObject));
 }
 
-// get variable + var name in plaintext
-const getSRCVariable = async(varID, varValID)=> {
-	const varInfo = await query.variable(varID);
-	console.log(varInfo.name)
-	console.log(varInfo.values[varValID])
-	return {
-		name: varInfo.name,
-		label: varInfo.values[varValID].label
-	}
-} 
 
 const RelevantSRCVars = ['rn10q3d8', '68k4zokl', 'ylper6r8', 'j84e3gwn', 'kn0z9vd8', '9l7x269n']
 
@@ -498,16 +488,17 @@ client.setInterval(async () => {
 			const runVars = thisRun.values
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
-					const varInfo = getSRCVariable(varName, varValue)
-					console.log(varInfo.label)
-					embed.addField(varInfo.name + ": ", varInfo.label)
+					const varInfo = await query.variable(varName);
+					console.log(varInfo.name)
+					console.log(varInfo.values[varValue].label)
+					embed.addField(varInfo.name + ": ", varInfo.values[varValue].label)
 				}
 			}
 		    if (runRank > 0) {
 				embed.addField('Leaderboard Rank:', runRank)
-				.addField('Date Played:', thisRun.date)
-				.setTimestamp();
 			}
+			embed.addField('Date Played:', thisRun.date)
+			.setTimestamp();
 
 			if (verifiedBy !== undefined) {
 				embed.addField('Verified by:', verifiedBy)
