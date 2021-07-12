@@ -81,8 +81,8 @@ const runnerUpdate = () => {
 const getSRCVariable = async(varID, varValID)=> {
 	const varInfo = await query.variable(varID);
 	return {
-		name: varInfo.data.name,
-		label: varInfo.data.values[varValID].label
+		name: varInfo.name,
+		label: varInfo.values[varValID].label
 	}
 } 
 

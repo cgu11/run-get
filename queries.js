@@ -50,6 +50,9 @@ module.exports = {
   variable: async varID => {
     const response = await fetch(`https://www.speedrun.com/api/v1/variables/${varID}`);
     const object = await response.json();
-    return object.status == 404 ? 'No variable found with id ' + varID : object.data.values.values;
+    return object.status == 404 ? 'No variable found with id ' + varID : {
+      name: object.data.name,
+      values: object.data.values.values
+    };
   }
 }
