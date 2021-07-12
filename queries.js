@@ -42,6 +42,18 @@ module.exports = {
     const object = await response.json();
     return object.data.runs;
   },
+  varLevelLB: async(game, level, category, subcategory, varID, varValue) => {
+    subcatQuery = subcategory + subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
+    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/level/${level}/${category}${subcategory}`);
+    const object = await response.json();
+    return object.data.runs;
+  },
+  varGameLB: async(game, category, subcategory, varID, varValue) => {
+    subcatQuery = subcategory + subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
+    const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/level/${level}/${category}${subcategory}`);
+    const object = await response.json();
+    return object.data.runs;
+  },
   submittedRuns: async page => {
     const offset = page === 0 ? '' : '&offset=' + (20 * page).toString();
     const response = await fetch(`https://www.speedrun.com/api/v1/runs?status=new&orderby=submitted&direction=desc&embed=game,category.variables,players,level${offset}`);
@@ -51,7 +63,6 @@ module.exports = {
   variable: async varID => {
     const response = await fetch(`https://www.speedrun.com/api/v1/variables/${varID}`);
     const object = await response.json();
-    console.log(object.data.name)
     return object.status == 404 ? 'No variable found with id ' + varID : {
       name: object.data.name,
       values: object.data.values.values

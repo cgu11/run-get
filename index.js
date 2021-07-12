@@ -3,6 +3,7 @@ const path = require('path');
 const Discord = require('discord.js');
 const config = require("./config.js");
 const query = require("./queries.js");
+const queries = require('./queries.js');
 
 const client = new Discord.Client();
 client.login(config.token);
@@ -492,11 +493,33 @@ client.setInterval(async () => {
 					console.log(varInfo.name)
 					console.log(varInfo.values[varValue].label)
 					embed.addField(varInfo.name + ": ", varInfo.values[varValue].label)
+					
+					// sub rankings
+					const rankingVarNames = ['Aspect', 'Weapon']
+					let varFoundRun;
+					let varRunRanks = {};
+					if (rankingVarNames.includes(varInfo.name)) {
+						if (thisRun.category.data.type === 'per-level') {
+							const varLevelLeaderboard = await query.varLevelLB(thisRun.game.data.id, thisRun.level.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
+							varFoundRun = varLevelLeaderboard.find(r => r.run.id === thisRun.id)
+							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
+						} else {
+							const varGameLeaderboard = await query.varGameLB(thisRun.game.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
+							varFoundRun = varLevelLeaderboard.find(r => r.run.id === thisRun.id)
+							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
+						}
+					}
 				}
 			}
 		    if (runRank > 0) {
 				embed.addField('Leaderboard Rank:', runRank)
 			}
+			for (const [varName, varRank] of Object.entries(varRunRanks)) {
+				if (varRank > 0 && varRank != 'N/A') {
+					embed.addField( varName + ' Rank:', varRank)
+				}
+			}
+			
 			embed.addField('Date Played:', thisRun.date)
 			.setTimestamp();
 
