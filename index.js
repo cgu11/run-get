@@ -274,7 +274,7 @@ client.on('message', async message => {
 	}
 	
 	// Message must mention the bot, be from a server administrator, and mention exactly 1 channel
-	if (message.mentions.users.has(client.user.id) && message.member.hasPermission("ADMINISTRATOR") && message.mentions.channels.size === 1) {
+	if (message.mentions.users.has(client.user.id) && message.member.hasPermission("MANAGE_CHANNELS") && message.mentions.channels.size === 1) {
 		// The game abbreviations included in the message
 
 		const gameAbbreviationArray = message.content.match(/\!?\b(?<!\<)[\w\-]+(?!\>)\b\*?/g);
@@ -386,7 +386,7 @@ client.on('message', async message => {
 		}
 	}
 
-	if (message.mentions.users.has(client.user.id) && message.member.hasPermission("ADMINISTRATOR") && message.mentions.channels.size === 0) {	
+	if (message.mentions.users.has(client.user.id) && message.member.hasPermission("MANAGE_CHANNELS") && message.mentions.channels.size === 0) {	
 		const newNickArray = message.content.match(/\!?\b(?<!\<)([^\<\>]\s?)+(?!\>)\b\*?/g);	
 		if (newNickArray === null) {	
 			message.reply('Missing parameters.');	
