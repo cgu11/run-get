@@ -52,7 +52,6 @@ module.exports = {
   varGameLB: async(game, category, subcategory, varID, varValue) => {
     subcatQuery = subcategory
     subcatQuery += subcategory === '' ? '?var-' + varID + '=' + varValue : '&var-' + varID + '=' + varValue;
-    console.log(`https://www.speedrun.com/api/v1/leaderboards/${game}/category/${category}${subcatQuery}`)
     const response = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${game}/category/${category}${subcatQuery}`);
     const object = await response.json();
     return object.data.runs;

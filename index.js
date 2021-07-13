@@ -491,8 +491,6 @@ client.setInterval(async () => {
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
 					const varInfo = await query.variable(varName);
-					console.log(varInfo.name)
-					console.log(varInfo.values[varValue].label)
 					embed.addField(varInfo.name + ": ", varInfo.values[varValue].label)
 					
 					// sub rankings
