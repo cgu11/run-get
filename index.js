@@ -516,7 +516,7 @@ client.setInterval(async () => {
 				embed.addField('Leaderboard Rank:', runRank)
 			}
 			for (const [varName, varRank] of Object.entries(varRunRanks)) {
-				if (varRank > 0 && varRank != 'N/A') {
+				if (varRank > 0 && varRank !== 'N/A') {
 					embed.addField( varName + ' Rank:', varRank)
 				}
 			}
@@ -545,7 +545,7 @@ client.setInterval(async () => {
                 }
 				// ping runner if in server
 				try {
-					if (runnerDiscord != null) {
+					if (runnerDiscord !== null) {
 						await thisChannel.send("<@" + runnerDiscord + ">");
 					}
 				} catch (e) {
