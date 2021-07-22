@@ -545,8 +545,8 @@ client.setInterval(async () => {
                 }
 				// ping runner if in server
 				try {
-					if ((discordID != null) && (discordID.length > 5)) {
-						await thisChannel.send("<@" + discordID + ">");
+					if ((runnerDiscord != null) && (runnerDiscord.length > 5)) {
+						await thisChannel.send("<@" + runnerDiscord + ">");
 					}
 				} catch (e) {
 					console.error(e);
