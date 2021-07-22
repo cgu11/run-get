@@ -69,5 +69,9 @@ module.exports = {
       name: object.data.name,
       values: object.data.values.values
     };
+  },
+  discordID: async username => {
+    const response = await fetch(`https://www.speedrun.com/user/${username}`);
+    return response.search('s/.*"Discord: (\S+)\".*/\1/p')
   }
 }

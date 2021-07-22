@@ -477,6 +477,9 @@ client.setInterval(async () => {
 		    }
 		    const runRank = foundRun === undefined ? 'N/A' : foundRun.place;
 
+			// Checking for runner discord ID
+			const runnerDiscord = queries.discordID(runnerName)
+
 			 // Create Discord embed
 			 const embed = new Discord.MessageEmbed()
 			 .setColor('#2A89E7')
@@ -534,11 +537,20 @@ client.setInterval(async () => {
 		    // Send message
 		    for (let j = 0; j < channels.length; j++) {
 			    const thisChannel = await client.channels.fetch(channels[j]);
+				// send embed
                 try {
 			        await thisChannel.send(embed).then(msg => verifiedCompareTime = newVerifyTime);
                 } catch (e) {
                     console.error(e);
                 }
+				// ping runner if in server
+				try {
+					if ((discordID != null) && (discordID.length > 5)) {
+						await thisChannel.send("<@" + discordID + ">");
+					}
+				} catch (e) {
+					console.error(e);
+				}
 		    }
 	    }
         p++;
