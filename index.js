@@ -478,7 +478,7 @@ client.setInterval(async () => {
 		    const runRank = foundRun === undefined ? 'N/A' : foundRun.place;
 
 			// Checking for runner discord ID
-			const runnerDiscord = queries.discordID(runnerName)
+			const runnerDiscord = await queries.discordID(runnerName)
 
 			 // Create Discord embed
 			 const embed = new Discord.MessageEmbed()
