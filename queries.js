@@ -75,6 +75,6 @@ module.exports = {
     var discordRegExp = new RegExp('s/.*"Discord: (\S+)\".*/\1/p');
     var discordIDs = response.match(discordRegExp);
 
-    return discordIDs.length > 0 ? discordIDs[0] : null;
+    return discordIDs.length > 0 ? discordIDs : null;
   }
 }
