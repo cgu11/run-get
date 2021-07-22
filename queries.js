@@ -71,10 +71,9 @@ module.exports = {
     };
   },
   discordID: async username => {
-    const response = fetch(`https://www.speedrun.com/user/${username}`);
-    var rawHTML = response.text();
+    const response = fetch(`https://www.speedrun.com/user/${username}`).then(r => r.text());
     const regex = /\Discord: (.*\d{4})/s;
-    var discordIDs = regex.exec(rawHTML);
+    var discordIDs = regex.exec(response);
 
     return discordIDs !== null ? discordIDs[1] : "";
   }
