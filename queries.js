@@ -71,10 +71,11 @@ module.exports = {
     };
   },
   discordID: async username => {
-    const response = await fetch(`https://www.speedrun.com/user/${username}`).then(resp=>resp.text());
+    const response = fetch(`https://www.speedrun.com/user/${username}`);
+    var rawHTML = response.text();
     var discordRegExp = new RegExp('s/.*"Discord: (\S+)\".*/\1/p');
-    var discordIDs = response.match(discordRegExp);
+    var discordIDs = rawHTML.match(discordRegExp);
 
-    return discordIDs.length > 0 ? discordIDs : null;
+    return discordIDs.length > 0 ? discordIDs[0] : "";
   }
 }

@@ -478,7 +478,7 @@ client.setInterval(async () => {
 		    const runRank = foundRun === undefined ? 'N/A' : foundRun.place;
 
 			// Checking for runner discord ID
-			const runnerDiscord = await queries.discordID(runnerName)
+			const runnerDiscord = await query.discordID(runnerName);
 
 			 // Create Discord embed
 			 const embed = new Discord.MessageEmbed()
@@ -486,28 +486,28 @@ client.setInterval(async () => {
 			 .setTitle(convert(thisRun.times.primary_t) + ' by ' + runnerName)
 			 .setThumbnail(thisRun.game.data.assets['cover-medium'].uri)
 			 .setURL(thisRun.weblink)
-			 .setAuthor(thisRun.game.data.names.international + ' - ' + categoryName + subcategoryName)
+			 .setAuthor(thisRun.game.data.names.international + ' - ' + categoryName + subcategoryName);
 
 			// parsing variables
-			const runVars = thisRun.values
-			let varRunRanks = {}
+			const runVars = thisRun.values;
+			let varRunRanks = {};
 			for (const [varName, varValue] of Object.entries(runVars)) {
 				if (RelevantSRCVars.includes(varName)) {
 					const varInfo = await query.variable(varName);
-					embed.addField(varInfo.name + ": ", varInfo.values[varValue].label)
+					embed.addField(varInfo.name + ": ", varInfo.values[varValue].label);
 					
 					// sub rankings
-					const rankingVarNames = ['Aspect', 'Weapon']
+					const rankingVarNames = ['Aspect', 'Weapon'];
 					let varFoundRun;
 					if (rankingVarNames.includes(varInfo.name)) {
 						if (thisRun.category.data.type === 'per-level') {
 							const varLevelLeaderboard = await query.varLevelLB(thisRun.game.data.id, thisRun.level.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
-							varFoundRun = varLevelLeaderboard.find(r => r.run.id === thisRun.id)
-							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
+							varFoundRun = varLevelLeaderboard.find(r => r.run.id === thisRun.id);
+							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place;
 						} else {
 							const varGameLeaderboard = await query.varGameLB(thisRun.game.data.id, thisRun.category.data.id, subcategoryQuery, varName, varValue);
-							varFoundRun = varGameLeaderboard.find(r => r.run.id === thisRun.id)
-							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place
+							varFoundRun = varGameLeaderboard.find(r => r.run.id === thisRun.id);
+							varRunRanks[varInfo.name] = varFoundRun === undefined ? 'N/A' : varFoundRun.place;
 						}
 					}
 				}
