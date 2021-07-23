@@ -478,7 +478,8 @@ client.setInterval(async () => {
 		    const runRank = foundRun === undefined ? 'N/A' : foundRun.place;
 
 			// Checking for runner discord ID
-			const runnerDiscord = await query.discordID(runnerName);
+			const runnerDiscordID = await query.discordID(runnerName);
+			const runnerDiscordUser = await client.users.fetch(runnerDiscordID);
 
 			 // Create Discord embed
 			 const embed = new Discord.MessageEmbed()
@@ -545,8 +546,8 @@ client.setInterval(async () => {
                 }
 				// ping runner if in server
 				try {
-					if (runnerDiscord !== null) {
-						await thisChannel.send("<@" + runnerDiscord + ">");
+					if (runnerDiscordUser !== null) {
+						await thisChannel.send(runnerDiscordUser.toString());
 					}
 				} catch (e) {
 					console.error(e);
