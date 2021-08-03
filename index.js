@@ -417,6 +417,7 @@ client.on('guildDelete', guild => {
 
 // Core function
 client.setInterval(async () => {
+    console.log("MAIN LOOP");
     let p = 0;
     let newVerifyTime;
     // Get 200 most recent verified runs
